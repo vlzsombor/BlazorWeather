@@ -4,61 +4,51 @@
 <h3>WeeklyForecast</h3>
 
 
-
-<button @onclick="testelek" type="button" class="btn btn-primary">primary</button>
-
-
-
-    @*@foreach (var item in Enumerable.Range(1, 5))*@
-    @if (forecasts == null)
+@*@foreach (var item in Enumerable.Range(1, 5))*@
+@if (forecasts == null)
+{
+    <span>No Data</span>
+}
+else
+{
+    foreach (var forecast in forecasts)
     {
-        <span>No Data</span>
+        <WeatherDay TemperatureC="forecast.TemperatureC"
+                    Summary="@forecast.Summary"
+                    DayOfWeek="forecast.Date.DayOfWeek"
+                    OnSelected="@HandleItemSelected"
+                    Selected="forecast.Selected">
+            <CustomMessage>
+                @if (forecast.Summary == "Rainy")
+                {
+                    <div class="alert alert-danger">
+                        Tornado Warning!
+                    </div>
+                }
+            </CustomMessage>
+        </WeatherDay>
     }
-    else
+}
+
+@code {
+
+    WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
     {
-        foreach (var forecast in forecasts)
-        {
-            <WeatherDay TemperatureC="forecast.TemperatureC"
-                        Summary="@forecast.Summary"
-                        DayOfWeek="forecast.Date.DayOfWeek"
-                        OnSelected="@HandleItemSelected"
-                        Selected="forecast.Selected">
-                <CustomMessage>
-                    @if (forecast.Summary == "Rainy")
-                    {
-                        <div class="alert alert-danger">
-                            Tornado Warning!
-                        </div>
-                    }
-                </CustomMessage>
-            </WeatherDay>
-        }
+        forecasts = await WeatherService.GetForecastAsync(DateTime.Now);
     }
 
-    @code {
 
-        WeatherForecast[] forecasts;
-
-        protected override async Task OnInitializedAsync()
-        {
-            forecasts = await WeatherService.GetForecastAsync(DateTime.Now);
-        }
-
-
-        void HandleItemSelected(DayOfWeek selectedValue)
-        {
-            Console.WriteLine("apfelsaft");
-
-            // Clear selections
-            foreach (var item in forecasts)
-                item.Selected = false;
-            forecasts.First(f => f.Date.DayOfWeek == selectedValue).Selected = true;
-        }
-
-
-        void testelek()
-        {
-            Console.WriteLine("apfelsaft");
-        }
-
+    void HandleItemSelected(DayOfWeek selectedValue)
+    {
+        // Clear selections
+        foreach (var item in forecasts)
+            item.Selected = false;
+        forecasts.First(f => f.Date.DayOfWeek == selectedValue).Selected = true;
     }
+
+
+
+
+}

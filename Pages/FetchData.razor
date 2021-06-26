@@ -1,7 +1,5 @@
 ﻿@page "/fetchdata"
 
-@using WeatherServer.Data
-@inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
 
@@ -35,12 +33,7 @@ else
         </tbody>
     </table>
 }
-
+<h1>asdsfdsdf</h1>
 @code {
-    private WeatherForecast[] forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }
 }
