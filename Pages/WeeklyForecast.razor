@@ -38,8 +38,6 @@ else
     {
         forecasts = await WeatherService.GetForecastAsync(DateTime.Now);
     }
-
-
     void HandleItemSelected(DayOfWeek selectedValue)
     {
         // Clear selections
@@ -47,8 +45,4 @@ else
             item.Selected = false;
         forecasts.First(f => f.Date.DayOfWeek == selectedValue).Selected = true;
     }
-
-
-
-
 }
