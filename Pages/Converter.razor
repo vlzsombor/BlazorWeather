@@ -1,13 +1,77 @@
 ﻿@page "/converter"
 <h3>ConverterRazor</h3>
 
+<label>Inches</label>
+<input @bind="Inches" type="number" @bind:event="oninput" />
 
-<input @bind="inches" type="number" />
-<p>The value of inches is: @inches</p>
+<span> = </span>
+<input type="number" @bind="Centimeters" @bind:event="oninput" />
+<label>Centimeters</label>
+
+
+
+
+<ul class="list-group">
+    @foreach (var item in items)
+    {
+        <li @key="item.Id" class="list-group-item">
+            <h1>@item.Value</h1>
+            <input type="checkbox" />
+        </li>
+    }
+</ul>
+<button @onclick="_ => items = items.Reverse()">Reverse</button>
 
 @code {
 
     double inches = 1;
+    double centimeters = 2.54;
 
 
+    public double Inches
+    {
+        get => inches;
+        set
+        {
+            centimeters = value * 2.54;
+            inches = value;
+        }
+    }
+
+
+
+
+
+    public double Centimeters
+    {
+        get => centimeters;
+        set
+        {
+            inches = value / 2.54;
+            centimeters = value;
+        }
+    }
+
+
+    // class Color {int Id, string Value}
+    IEnumerable<Color> items = new Color[] {
+        new Color {Id = 0, Value = "Green" },
+        new Color {Id = 1, Value = "Blue" },
+        new Color {Id = 2, Value = "Orange" },
+        new Color {Id = 3, Value = "Purple" }
+    };
+
+
+    class Color
+    {
+        public int Id { get; set; }
+        public string Value { get; set; }
+
+        public Color(int Id = 0, string Value = "")
+        {
+            this.Id = Id;
+            this.Value = Value;
+        }
+
+    }
 }
