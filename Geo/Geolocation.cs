@@ -8,24 +8,29 @@ namespace WeatherServer.Geo
 {
     public class Geolocation
     {
-        private readonly IJSRuntime js;
+        private readonly IJSRuntime _js;
+
         public Geolocation(IJSRuntime js)
         {
-            this.js = js;
+            this._js = js;
         }
 
 
-        public async ValueTask<bool> HasGeolocationFeature() => await js.InvokeAsync<bool>
-            ("blazorGeolocation.hasGeolocaitonFeature");
+        public async ValueTask<bool> HasGeolcationFeature()
+            => await _js.InvokeAsync<bool>("blazorGeolocation.hasGeolocaitonFeature");
+
 
         private Action<Position> OnGetPosition;
+
         [JSInvokable]
         public void RaiseOnGetPosition(Position p) =>
-        OnGetPosition?.Invoke(p);
+            OnGetPosition?.Invoke(p);
+
         private Action<PositionError> OnGetPositionError;
+
         [JSInvokable]
-        public void RaiseOnGetPositionError(PositionError err) =>
-        OnGetPositionError?.Invoke(err);
+        public void RaiseOnGetPositionError(PositionError err)
+            => OnGetPositionError?.Invoke(err);
 
 
         public async ValueTask GetCurrentPosition(
@@ -35,11 +40,8 @@ namespace WeatherServer.Geo
         {
             OnGetPosition = onSuccess;
             OnGetPositionError = onError;
-            await js.InvokeVoidAsync
-            ("blazorGeolocation.getCurrentPosition",
+            await _js.InvokeVoidAsync("blazorGeolocation.getCurrentPosition",
             DotNetObjectReference.Create(this), options);
         }
-
-
     }
 }
