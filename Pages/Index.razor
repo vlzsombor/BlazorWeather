@@ -1,7 +1,27 @@
 ﻿@inject IJSRuntime js
 @using Geo
 @page "/"
+@using RazorClassLibrary1
 <h1>Hello, world!</h1>
+
+
+
+<Component1></Component1>
+
+<button @onclick="ShowPrompt">Show Prompt</button>
+
+@code {
+    string message = "world";
+    async Task ShowPrompt()
+    {
+
+
+        ExampleJsInterop exampleJsInterop = new ExampleJsInterop(js);
+
+        message = await exampleJsInterop.Prompt("Say hello:");
+    }
+}
+
 @if (hasGeoLocation)
 {
     <p>Browser has GeoLocation</p>
