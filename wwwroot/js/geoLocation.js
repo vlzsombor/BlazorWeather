@@ -25,14 +25,3 @@
             .getCurrentPosition(onSuccess, onError, options);
     },
 };
-
-
-getCurrentPosition(PositionCallback successCallback,
-    optional PositionErrorCallback errorCallback,
-    optional PositionOptions options);
-
-
-PositionCallback = void (Position position);
-
-
-PositionErrorCallback = void (PositionError positionError);
