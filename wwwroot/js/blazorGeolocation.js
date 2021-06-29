@@ -11,8 +11,6 @@
     },
 
     hasGeolocaitonFeature: function () {
-
-        navigator.geolocation.getCurrentPosition(success, error);
         return navigator.geolocation ? true : false;
     },
 
